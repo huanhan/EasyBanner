@@ -19,11 +19,11 @@ import xin.lrvik.easybanner.adapter.recyclerview.EasyGridLayoutManager;
 /**
  * Author by 豢涵, Email huanhanfu@126.com, Date on 2018/12/30.
  */
-public abstract class EasyRecyclerViewAdapter<T> extends BaseEasyViewPagerAdapter<T> {
+public abstract class BaseTypeItemAdapter<T> extends BaseEasyViewPagerAdapter<T> {
 
     private int layoutId;
 
-    public EasyRecyclerViewAdapter(int itemNum, int cols, int layoutId) {
+    public BaseTypeItemAdapter(int itemNum, int cols, int layoutId) {
         super(itemNum, cols);
         this.layoutId = layoutId;
     }

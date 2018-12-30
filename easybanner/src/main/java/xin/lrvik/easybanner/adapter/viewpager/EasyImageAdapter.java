@@ -13,17 +13,33 @@ import xin.lrvik.easybanner.R;
  */
 public abstract class EasyImageAdapter<T> extends BaseEasyViewPagerAdapter<T> {
 
+    private final ImageView.ScaleType scaleType;
+
+    public EasyImageAdapter(ImageView.ScaleType scaleType) {
+        super(1, 1);
+        this.scaleType = scaleType;
+    }
+
     public EasyImageAdapter() {
         super(1, 1);
+        this.scaleType = ImageView.ScaleType.FIT_XY;
     }
 
     @Override
-    protected View createView(ViewGroup container, List<T> data) {
+    protected View createView(ViewGroup container, final List<T> data) {
         View view = View.inflate(container.getContext(), R.layout.item_img, null);
         ImageView imageView = view.findViewById(R.id.imageview);
+        imageView.setScaleType(scaleType);
         convert(imageView, data.get(0));
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClick(view,data.get(0));
+            }
+        });
         return view;
     }
+
 
     protected abstract void convert(ImageView view, T data);
 

@@ -71,6 +71,8 @@ public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
 
     protected abstract View createView(ViewGroup container, List<T> data);
 
+    protected abstract void onItemClick(View view, T t);
+
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;

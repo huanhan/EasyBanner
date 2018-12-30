@@ -2,20 +2,19 @@ package xin.lrvik.easybanner;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import xin.lrvik.easybanner.adapter.recyclerview.BaseViewHolder;
 import xin.lrvik.easybanner.adapter.viewpager.EasyImageAdapter;
-import xin.lrvik.easybanner.adapter.viewpager.EasyRecyclerViewAdapter;
+import xin.lrvik.easybanner.adapter.viewpager.EasyTypeItemAdapter;
+import xin.lrvik.easybanner.dto.TypeItem;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,7 +40,12 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAutoPlay(true)
                 .setDelayTime(2000)
                 .setLoop(true)
-                .setAdapter(new EasyImageAdapter<String>() {
+                .setAdapter(new EasyImageAdapter<String>(ImageView.ScaleType.CENTER_CROP) {
+                    @Override
+                    protected void onItemClick(View view, String s) {
+                        Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+                    }
+
                     @Override
                     protected void convert(ImageView view, String data) {
                         Glide.with(MainActivity.this)
@@ -61,7 +65,13 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager2.setAutoPlay(false)
                 .setLoop(false)
-                .setAdapter(new EasyRecyclerViewAdapter<TypeItem>(10, 5, R.layout.item_type) {
+                .setAdapter(new EasyTypeItemAdapter(10, 5) {
+
+                    @Override
+                    protected void onItemClick(View view, TypeItem typeItem) {
+
+                    }
+
                     @Override
                     protected void convert(BaseViewHolder holder, TypeItem data) {
                         ImageView iv = holder.getView(R.id.iv);
