@@ -23,8 +23,8 @@ public abstract class EasyRecyclerViewAdapter<T> extends BaseEasyViewPagerAdapte
 
     private int layoutId;
 
-    public EasyRecyclerViewAdapter(List<T> data, int itemNum, int cols, int layoutId) {
-        super(data, itemNum, cols);
+    public EasyRecyclerViewAdapter(int itemNum, int cols, int layoutId) {
+        super(itemNum, cols);
         this.layoutId = layoutId;
     }
 

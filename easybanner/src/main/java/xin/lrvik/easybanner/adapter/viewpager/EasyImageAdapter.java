@@ -13,8 +13,8 @@ import xin.lrvik.easybanner.R;
  */
 public abstract class EasyImageAdapter<T> extends BaseEasyViewPagerAdapter<T> {
 
-    public EasyImageAdapter(List data) {
-        super(data, 1, 1);
+    public EasyImageAdapter() {
+        super(1, 1);
     }
 
     @Override

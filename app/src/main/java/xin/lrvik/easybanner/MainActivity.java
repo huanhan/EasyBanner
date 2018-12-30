@@ -38,16 +38,18 @@ public class MainActivity extends AppCompatActivity {
         imgUrls.add("https://i0.hdslb.com/bfs/archive/c759a6098b816852fae0371791855ac94b5ad646.jpg");
         imgUrls.add("https://i0.hdslb.com/bfs/archive/17e9361930ef585353422e86a8192381da05b5a3.jpg");
 
-        viewPager.setAutoPlay(true);
-        viewPager.setAdapter(new EasyImageAdapter<String>(imgUrls) {
-            @Override
-            protected void convert(ImageView view, String data) {
-                Log.d(TAG, "convert: 被调用" + data);
-                Glide.with(MainActivity.this)
-                        .load(data)
-                        .into(view);
-            }
-        });
+        viewPager.setAutoPlay(true)
+                .setDelayTime(2000)
+                .setLoop(true)
+                .setAdapter(new EasyImageAdapter<String>() {
+                    @Override
+                    protected void convert(ImageView view, String data) {
+                        Glide.with(MainActivity.this)
+                                .load(data)
+                                .into(view);
+                    }
+                }).setData(imgUrls);
+
 
         ArrayList<TypeItem> typeItems = new ArrayList<>();
         //第二个viewpager
@@ -56,19 +58,21 @@ public class MainActivity extends AppCompatActivity {
             typeItems.add(new TypeItem("https://fuss10.elemecdn.com/e/89/185f7259ebda19e16123884a60ef2jpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/", "晚餐" + i));
             typeItems.add(new TypeItem("https://fuss10.elemecdn.com/c/7e/76a23eb90dada42528bc41499d6f8jpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/", "商店遍历" + i));
         }
-        viewPager2.setAutoPlay(false);
-        viewPager2.setAdapter(new EasyRecyclerViewAdapter<TypeItem>(typeItems, 10, 5, R.layout.item_type) {
-            @Override
-            protected void convert(BaseViewHolder holder, TypeItem data) {
-                ImageView iv = holder.getView(R.id.iv);
-                Glide.with(MainActivity.this)
-                        .load(data.getImgUrl())
-                        .into(iv);
-                TextView tv = holder.getView(R.id.tv);
-                tv.setText(data.getTitle());
-            }
 
-        });
+        viewPager2.setAutoPlay(false)
+                .setLoop(false)
+                .setAdapter(new EasyRecyclerViewAdapter<TypeItem>(10, 5, R.layout.item_type) {
+                    @Override
+                    protected void convert(BaseViewHolder holder, TypeItem data) {
+                        ImageView iv = holder.getView(R.id.iv);
+                        Glide.with(MainActivity.this)
+                                .load(data.getImgUrl())
+                                .into(iv);
+                        TextView tv = holder.getView(R.id.tv);
+                        tv.setText(data.getTitle());
+                    }
+
+                }).setData(typeItems);
 
     }
 

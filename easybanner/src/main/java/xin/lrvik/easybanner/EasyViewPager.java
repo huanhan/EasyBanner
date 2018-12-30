@@ -1,11 +1,11 @@
 package xin.lrvik.easybanner;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
+
+import java.util.List;
 
 import xin.lrvik.easybanner.adapter.viewpager.BaseEasyViewPagerAdapter;
 
@@ -15,11 +15,13 @@ import xin.lrvik.easybanner.adapter.viewpager.BaseEasyViewPagerAdapter;
  */
 public class EasyViewPager extends ViewPager {
 
-    private int delayTime = 3000;
-
     private Context mContext;
+
+    private int delayTime = 3000;
     private boolean isAutoPlay = false;
-    private boolean scrollable = true;
+    private boolean isLoop = false;
+
+    private BaseEasyViewPagerAdapter adapter;
 
     private WeakHandler handler = new WeakHandler();
 
@@ -41,36 +43,29 @@ public class EasyViewPager extends ViewPager {
         handleTypedArray(context, attrs);
         //初始化view
 
-        addOnPageChangeListener(new OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-
-            }
+        addOnPageChangeListener(new SimpleOnPageChangeListener() {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                switch (state) {
-                    case ViewPager.SCROLL_STATE_IDLE://No operation
-                        if (getCurrentItem() == 0) {
-                            setCurrentItem(getAdapter().getCount() - 2, false);
-                        } else if (getCurrentItem() == getAdapter().getCount() - 1) {
-                            setCurrentItem(1, false);
-                        }
-                        break;
-                    case ViewPager.SCROLL_STATE_DRAGGING://start Sliding
-                        if (getCurrentItem() == getAdapter().getCount() - 1) {
-                            setCurrentItem(1, false);
-                        } else if (getCurrentItem() == 0) {
-                            setCurrentItem(getAdapter().getCount() - 2, false);
-                        }
-                        break;
-                    case ViewPager.SCROLL_STATE_SETTLING://end Sliding
-                        break;
+                if (adapter.isLoop()) {
+                    switch (state) {
+                        case ViewPager.SCROLL_STATE_IDLE://No operation
+                            if (getCurrentItem() == 0) {
+                                setCurrentItem(getAdapter().getCount() - 2, false);
+                            } else if (getCurrentItem() == getAdapter().getCount() - 1) {
+                                setCurrentItem(1, false);
+                            }
+                            break;
+                        case ViewPager.SCROLL_STATE_DRAGGING://start Sliding
+                            if (getCurrentItem() == getAdapter().getCount() - 1) {
+                                setCurrentItem(1, false);
+                            } else if (getCurrentItem() == 0) {
+                                setCurrentItem(getAdapter().getCount() - 2, false);
+                            }
+                            break;
+                        case ViewPager.SCROLL_STATE_SETTLING://end Sliding
+                            break;
+                    }
                 }
             }
         });
@@ -103,7 +98,7 @@ public class EasyViewPager extends ViewPager {
     private final Runnable task = new Runnable() {
         @Override
         public void run() {
-            if (getAdapter() != null && getAdapter().getCount() - 2 > 1 && isAutoPlay) {
+            if (getAdapter() != null && getAdapter().getCount() - 2 > 1 && isAutoPlay && isLoop) {
                 int currentItem = getCurrentItem() % (getAdapter().getCount() - 1) + 1;
                 if (currentItem == 1) {
                     setCurrentItem(currentItem, false);
@@ -120,21 +115,46 @@ public class EasyViewPager extends ViewPager {
         return delayTime;
     }
 
-    public void setDelayTime(int delayTime) {
+    public EasyViewPager setDelayTime(int delayTime) {
         this.delayTime = delayTime;
+        return this;
     }
 
     public boolean isAutoPlay() {
         return isAutoPlay;
     }
 
-    public void setAutoPlay(boolean autoPlay) {
+    public EasyViewPager setAutoPlay(boolean autoPlay) {
         isAutoPlay = autoPlay;
+        return this;
     }
 
-    public void setAdapter(@Nullable BaseEasyViewPagerAdapter adapter) {
+    public EasyViewPager setAdapter(BaseEasyViewPagerAdapter adapter) {
+        this.adapter = adapter;
         super.setAdapter(adapter);
         setCurrentItem(1);
+        return this;
+    }
+
+    public boolean isLoop() {
+        return isLoop;
+    }
+
+    public EasyViewPager setLoop(boolean loop) {
+        isLoop = loop;
+        return this;
+    }
+
+    public List getData() {
+        return adapter.getData();
+    }
+
+    public void setData(List data) {
+        if (adapter == null) {
+            throw new RuntimeException("适配器不能为空，请配置适配器！");
+        }
+        adapter.setLoop(isLoop);
+        adapter.setData(data);
     }
 
     @Override

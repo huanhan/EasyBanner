@@ -12,41 +12,53 @@ import java.util.List;
  */
 public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
 
-    private List<T> mData;
+    private List<T> mData = new ArrayList<>();
     private int itemNum;
     private int cols;
 
-    public BaseEasyViewPagerAdapter(List<T> data, int itemNum, int cols) {
-        this.mData = data == null ? new ArrayList<T>() : data;
+    private boolean isLoop = false;
+
+    public BaseEasyViewPagerAdapter(int itemNum, int cols) {
         this.itemNum = itemNum;
         this.cols = cols;
     }
 
     @Override
     public int getCount() {
-        //需要+2因为首尾需要做循环
-        return (int) Math.ceil(mData.size() / (float) itemNum) + 2;
+        if (mData.size() > 0) {
+            int count = (int) Math.ceil(mData.size() / (float) itemNum);
+            if (count != 1 && isLoop) {
+                //总页数大于1且需要循环的时候需要前后补上首尾页
+                count += 2;
+            }
+            return count;
+        } else {
+            return 0;
+        }
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-
-
+        View view;
         //根据页数分发每页要用到的数据
         //总页数
         int totalPage = getCount();
-        //当前页 position  第0和最后一页是用来循环的
+        if (totalPage != 1 && isLoop) {
+            //当前页 position  第0和最后一页是用来循环的
+            if (position == 0) {
+                //当前页是第0页的时候，获取最后一页数据(最后一页=总页数-首位页2-下标1)
+                view = createView(container, getPageDatas(totalPage - 2 - 1));
+            } else if (position == totalPage - 1) {
+                //当前页是最后页的时候，获取第一页数据
+                view = createView(container, getPageDatas(0));
+            } else {
+                view = createView(container, getPageDatas(position - 1));
+            }
 
-        View view;
-        if (position == 0) {
-            //当前页是第0页的时候，获取最后一页数据(最后一页=总页数-首位页2-下标1)
-            view = createView(container, getPageDatas(totalPage - 2 - 1));
-        } else if (position == totalPage - 1) {
-            //当前页是最后页的时候，获取第一页数据
-            view = createView(container, getPageDatas(0));
         } else {
-            view = createView(container, getPageDatas(position - 1));
+            view = createView(container, getPageDatas(position));
         }
+
         container.addView(view);
         return view;
     }
@@ -69,13 +81,14 @@ public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
         container.removeView((View) object);
     }
 
-
     public List<T> getData() {
         return mData;
     }
 
     public void setData(List<T> mData) {
-        this.mData = mData;
+        this.mData.clear();
+        this.mData.addAll(mData);
+        notifyDataSetChanged();
     }
 
     public int getItemNum() {
@@ -92,5 +105,13 @@ public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
 
     public void setCols(int cols) {
         this.cols = cols;
+    }
+
+    public boolean isLoop() {
+        return isLoop;
+    }
+
+    public void setLoop(boolean loop) {
+        isLoop = loop;
     }
 }
