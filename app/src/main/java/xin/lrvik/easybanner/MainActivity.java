@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAutoPlay(true)
                 .setDelayTime(2000)
                 .setLoop(true)
+                .setBannerAnimation(Transformer.Accordion)
                 .setAdapter(new EasyImageAdapter<String>(ImageView.ScaleType.CENTER_CROP) {
                     @Override
                     protected void onItemClick(View view, String s) {
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     protected void onItemClick(View view, TypeItem typeItem) {
-
+                        Toast.makeText(MainActivity.this, typeItem.getTitle(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

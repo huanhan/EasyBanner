@@ -1,9 +1,5 @@
 package xin.lrvik.easybanner.adapter.viewpager;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +36,14 @@ public abstract class BaseTypeItemAdapter<T> extends BaseEasyViewPagerAdapter<T>
 //        recyclerView.setAdapter(recycleAdapter);
         recyclerView.setAdapter(new BaseRecyclerViewAdapter<T>(container.getContext(), data, layoutId) {
             @Override
-            protected void bindData(BaseViewHolder holder, T data, int position) {
+            protected void bindData(BaseViewHolder holder, final T data, int position) {
                 convert(holder, data);
+                holder.getRootView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onItemClick(view, data);
+                    }
+                });
             }
         });
         return view;

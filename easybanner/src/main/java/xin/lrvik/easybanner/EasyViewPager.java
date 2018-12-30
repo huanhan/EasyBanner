@@ -3,6 +3,7 @@ package xin.lrvik.easybanner;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.List;
@@ -47,12 +48,14 @@ public class EasyViewPager extends ViewPager {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
+                Log.d("TEST", "滚动状态改变，当前页" + getCurrentItem());
                 if (adapter.isLoop()) {
                     switch (state) {
                         case ViewPager.SCROLL_STATE_IDLE://No operation
-                            if (getCurrentItem() == 0) {
+                            if (getCurrentItem() == 0) {//如果当前页是第一页
                                 setCurrentItem(getAdapter().getCount() - 2, false);
-                            } else if (getCurrentItem() == getAdapter().getCount() - 1) {
+                            } else if (getCurrentItem() == getAdapter().getCount() - 1) {//如果当前页是最后一页
                                 setCurrentItem(1, false);
                             }
                             break;
@@ -70,6 +73,16 @@ public class EasyViewPager extends ViewPager {
             }
         });
     }
+
+    public EasyViewPager setBannerAnimation(Class<? extends PageTransformer> transformer) {
+        try {
+            setPageTransformer(true, transformer.newInstance());
+        } catch (Exception e) {
+            throw new RuntimeException("Please set the PageTransformer class");
+        }
+        return this;
+    }
+
 
     private void handleTypedArray(Context context, AttributeSet attrs) {
         if (attrs == null) {
@@ -100,6 +113,7 @@ public class EasyViewPager extends ViewPager {
         public void run() {
             if (getAdapter() != null && getAdapter().getCount() - 2 > 1 && isAutoPlay && isLoop) {
                 int currentItem = getCurrentItem() % (getAdapter().getCount() - 1) + 1;
+                //Log.d("TEST", "当前页" + getCurrentItem() + " 准备跳转页" + currentItem);
                 if (currentItem == 1) {
                     setCurrentItem(currentItem, false);
                     handler.post(task);
@@ -132,7 +146,6 @@ public class EasyViewPager extends ViewPager {
     public EasyViewPager setAdapter(BaseEasyViewPagerAdapter adapter) {
         this.adapter = adapter;
         super.setAdapter(adapter);
-        setCurrentItem(1);
         return this;
     }
 
@@ -155,6 +168,9 @@ public class EasyViewPager extends ViewPager {
         }
         adapter.setLoop(isLoop);
         adapter.setData(data);
+        if (adapter.isLoop()) {
+            setCurrentItem(1);
+        }
     }
 
     @Override

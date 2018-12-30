@@ -21,8 +21,7 @@ public abstract class EasyImageAdapter<T> extends BaseEasyViewPagerAdapter<T> {
     }
 
     public EasyImageAdapter() {
-        super(1, 1);
-        this.scaleType = ImageView.ScaleType.FIT_XY;
+        this(ImageView.ScaleType.FIT_XY);
     }
 
     @Override
@@ -34,7 +33,7 @@ public abstract class EasyImageAdapter<T> extends BaseEasyViewPagerAdapter<T> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClick(view,data.get(0));
+                onItemClick(view, data.get(0));
             }
         });
         return view;

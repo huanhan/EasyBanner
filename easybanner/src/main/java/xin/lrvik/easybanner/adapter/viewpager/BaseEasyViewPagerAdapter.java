@@ -1,6 +1,7 @@
 package xin.lrvik.easybanner.adapter.viewpager;
 
 import android.support.v4.view.PagerAdapter;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +13,8 @@ import java.util.List;
  */
 public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
 
+    private SparseArray<View> views;
+
     private List<T> mData = new ArrayList<>();
     private int itemNum;
     private int cols;
@@ -21,6 +24,7 @@ public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
     public BaseEasyViewPagerAdapter(int itemNum, int cols) {
         this.itemNum = itemNum;
         this.cols = cols;
+        views = new SparseArray<>();
     }
 
     @Override
@@ -39,24 +43,29 @@ public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view;
-        //根据页数分发每页要用到的数据
-        //总页数
-        int totalPage = getCount();
-        if (totalPage != 1 && isLoop) {
-            //当前页 position  第0和最后一页是用来循环的
-            if (position == 0) {
-                //当前页是第0页的时候，获取最后一页数据(最后一页=总页数-首位页2-下标1)
-                view = createView(container, getPageDatas(totalPage - 2 - 1));
-            } else if (position == totalPage - 1) {
-                //当前页是最后页的时候，获取第一页数据
-                view = createView(container, getPageDatas(0));
-            } else {
-                view = createView(container, getPageDatas(position - 1));
-            }
 
-        } else {
-            view = createView(container, getPageDatas(position));
+        View view = views.get(position);
+
+        if (view == null) {
+            //根据页数分发每页要用到的数据
+            //总页数
+            int totalPage = getCount();
+            if (totalPage != 1 && isLoop) {
+                //当前页 position  第0和最后一页是用来循环的
+                if (position == 0) {
+                    //当前页是第0页的时候，获取最后一页数据(最后一页=总页数-首位页2-下标1)
+                    view = createView(container, getPageDatas(totalPage - 2 - 1));
+                } else if (position == totalPage - 1) {
+                    //当前页是最后页的时候，获取第一页数据
+                    view = createView(container, getPageDatas(0));
+                } else {
+                    view = createView(container, getPageDatas(position - 1));
+                }
+
+            } else {
+                view = createView(container, getPageDatas(position));
+            }
+            views.put(position, view);
         }
 
         container.addView(view);
@@ -92,6 +101,7 @@ public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
         this.mData.addAll(mData);
         notifyDataSetChanged();
     }
+
 
     public int getItemNum() {
         return itemNum;
