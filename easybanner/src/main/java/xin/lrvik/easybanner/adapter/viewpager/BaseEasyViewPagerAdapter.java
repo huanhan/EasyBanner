@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import xin.lrvik.easybanner.adapter.recyclerview.BaseRecyclerViewAdapter;
+
 /**
  * Author by 豢涵, Email huanhanfu@126.com, Date on 2018/12/29.
  */
@@ -20,6 +22,8 @@ public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
     private int cols;
 
     private boolean isLoop = false;
+
+    protected OnItemClickListner onItemClickListner;//单击事件
 
     public BaseEasyViewPagerAdapter(int itemNum, int cols) {
         this.itemNum = itemNum;
@@ -78,10 +82,6 @@ public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
         return pageDatas;
     }
 
-    protected abstract View createView(ViewGroup container, List<T> data);
-
-    protected abstract void onItemClick(View view, T t);
-
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
@@ -90,6 +90,16 @@ public abstract class BaseEasyViewPagerAdapter<T> extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+    }
+
+    protected abstract View createView(ViewGroup container, List<T> data);
+
+    public interface OnItemClickListner<T> {
+        void onItemClickListner(View v, T t);
+    }
+
+    public void setOnItemClickListner(OnItemClickListner onItemClickListner) {
+        this.onItemClickListner = onItemClickListner;
     }
 
     public List<T> getData() {

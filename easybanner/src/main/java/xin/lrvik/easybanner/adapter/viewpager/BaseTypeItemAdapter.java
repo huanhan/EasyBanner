@@ -41,7 +41,9 @@ public abstract class BaseTypeItemAdapter<T> extends BaseEasyViewPagerAdapter<T>
                 holder.getRootView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        onItemClick(view, data);
+                        if (onItemClickListner != null) {
+                            onItemClickListner.onItemClickListner(view, data);
+                        }
                     }
                 });
             }

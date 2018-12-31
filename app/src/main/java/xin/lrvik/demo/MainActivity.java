@@ -2,6 +2,7 @@ package xin.lrvik.demo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import xin.lrvik.easybanner.EasyViewPager;
 import xin.lrvik.easybanner.Transformer;
 import xin.lrvik.easybanner.adapter.recyclerview.BaseViewHolder;
+import xin.lrvik.easybanner.adapter.viewpager.BaseEasyViewPagerAdapter;
 import xin.lrvik.easybanner.adapter.viewpager.EasyImageAdapter;
 import xin.lrvik.easybanner.adapter.viewpager.EasyTypeItemAdapter;
 import xin.lrvik.easybanner.dto.TypeItem;
@@ -49,10 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 .setBannerAnimation(Transformer.Accordion)
                 .setIndicator(dot)
                 .setAdapter(new EasyImageAdapter<String>(ImageView.ScaleType.CENTER_CROP) {
-                    @Override
-                    protected void onItemClick(View view, String s) {
-                        Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
-                    }
 
                     @Override
                     protected void convert(ImageView view, String data) {
@@ -60,7 +58,18 @@ public class MainActivity extends AppCompatActivity {
                                 .load(data)
                                 .into(view);
                     }
-                }).setData(imgUrls);
+                }).setOnItemClickListner(new BaseEasyViewPagerAdapter.OnItemClickListner<String>() {
+            @Override
+            public void onItemClickListner(View v, String s) {
+                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+            }
+        }).setOnPageChangeListener(new EasyViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                //Toast.makeText(MainActivity.this, "当前页为"+position, Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "更新文本提示 " + position);
+            }
+        }).setData(imgUrls);
 
 
         ArrayList<TypeItem> typeItems = new ArrayList<>();
@@ -76,11 +85,6 @@ public class MainActivity extends AppCompatActivity {
                 .setAdapter(new EasyTypeItemAdapter(10, 5) {
 
                     @Override
-                    protected void onItemClick(View view, TypeItem typeItem) {
-                        Toast.makeText(MainActivity.this, typeItem.getTitle(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
                     protected void convert(BaseViewHolder holder, TypeItem data) {
                         ImageView iv = holder.getView(R.id.iv);
                         Glide.with(MainActivity.this)
@@ -90,7 +94,12 @@ public class MainActivity extends AppCompatActivity {
                         tv.setText(data.getTitle());
                     }
 
-                }).setData(typeItems);
+                }).setOnItemClickListner(new BaseEasyViewPagerAdapter.OnItemClickListner<TypeItem>() {
+            @Override
+            public void onItemClickListner(View v, TypeItem typeItem) {
+                Toast.makeText(MainActivity.this, typeItem.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        }).setData(typeItems);
 
     }
 

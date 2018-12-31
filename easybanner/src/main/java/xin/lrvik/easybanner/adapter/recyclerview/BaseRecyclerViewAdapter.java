@@ -17,8 +17,8 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
     private LayoutInflater inflater;
     private List<T> datas;
     private int layoutId;
-    protected OnItemClickListner onItemClickListner;//单击事件
-    protected OnItemLongClickListner onItemLongClickListner;//长按单击事件
+   /* protected OnItemClickListner onItemClickListner;//单击事件
+    protected OnItemLongClickListner onItemLongClickListner;//长按单击事件*/
     private boolean clickFlag = true;//单击事件和长单击事件的屏蔽标识
 
     public BaseRecyclerViewAdapter(Context context, List<T> datas, int layoutId) {
@@ -46,7 +46,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     protected abstract void bindData(BaseViewHolder holder, T data, int position);
 
-    public void setOnItemClickListner(OnItemClickListner onItemClickListner) {
+  /*  public void setOnItemClickListner(OnItemClickListner onItemClickListner) {
         this.onItemClickListner = onItemClickListner;
     }
 
@@ -60,5 +60,5 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     public interface OnItemLongClickListner {
         void onItemLongClickListner(View v, int position);
-    }
+    }*/
 }

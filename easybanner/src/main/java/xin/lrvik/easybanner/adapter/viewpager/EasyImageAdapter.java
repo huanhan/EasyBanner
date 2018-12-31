@@ -34,7 +34,9 @@ public abstract class EasyImageAdapter<T> extends BaseEasyViewPagerAdapter<T> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClick(view, data.get(0));
+                if (onItemClickListner != null) {
+                    onItemClickListner.onItemClickListner(view, data.get(0));
+                }
             }
         });
         return view;

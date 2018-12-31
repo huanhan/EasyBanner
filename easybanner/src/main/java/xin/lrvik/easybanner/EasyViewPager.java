@@ -3,8 +3,8 @@ package xin.lrvik.easybanner;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 
 import java.util.List;
 
@@ -28,6 +28,7 @@ public class EasyViewPager extends ViewPager {
     private BaseIndicator indicator;
 
     private WeakHandler handler = new WeakHandler();
+    private OnPageChangeListener onPageChangeListener;
 
     public EasyViewPager(Context context) {
         this(context, null);
@@ -62,8 +63,15 @@ public class EasyViewPager extends ViewPager {
                         }
 
                         indicator.onPageScrolled(pos - 1, positionOffset, positionOffsetPixels);
+
+                        if (onPageChangeListener != null) {
+                            onPageChangeListener.onPageScrolled(pos - 1, positionOffset, positionOffsetPixels);
+                        }
                     } else {
                         indicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                        if (onPageChangeListener != null) {
+                            onPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                        }
                     }
                 }
             }
@@ -169,6 +177,23 @@ public class EasyViewPager extends ViewPager {
         return this;
     }
 
+    public EasyViewPager setOnItemClickListner(BaseEasyViewPagerAdapter.OnItemClickListner onItemClickListner) {
+        if (this.adapter == null) {
+            throw new RuntimeException("适配器不能为空，请配置适配器！");
+        }
+        this.adapter.setOnItemClickListner(onItemClickListner);
+        return this;
+    }
+
+    public interface OnPageChangeListener {
+          void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
+    }
+
+    public EasyViewPager setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {
+        this.onPageChangeListener = onPageChangeListener;
+        return this;
+    }
+
     public BaseIndicator getIndicator() {
         return indicator;
     }
@@ -204,6 +229,7 @@ public class EasyViewPager extends ViewPager {
             indicator.createIndicator(data.size());
         }
     }
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
