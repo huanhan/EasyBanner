@@ -19,7 +19,7 @@ import xin.lrvik.easybanner.adapter.viewpager.BaseEasyViewPagerAdapter;
 import xin.lrvik.easybanner.adapter.viewpager.EasyImageAdapter;
 import xin.lrvik.easybanner.adapter.viewpager.EasyTypeItemAdapter;
 import xin.lrvik.easybanner.dto.TypeItem;
-import xin.lrvik.easybanner.indicator.DotIndicator;
+import xin.lrvik.easybanner.indicator.EasyDotIndicator;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private EasyViewPager viewPager;
     private EasyViewPager viewPager2;
-    private DotIndicator dot;
+    private EasyDotIndicator dot;
+    private EasyDotIndicator dot2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         viewPager = findViewById(R.id.evp);
         viewPager2 = findViewById(R.id.evp2);
-        dot = findViewById(R.id.dot);
 
-        //第一个viewpager
+        dot = findViewById(R.id.dot1);
+        dot2 = findViewById(R.id.dot2);
+
         ArrayList<String> imgUrls = new ArrayList<>();
         imgUrls.add("https://i0.hdslb.com/bfs/archive/ef72072c178bff478d305e0fad4a1aecca5c30e2.jpg");
         imgUrls.add("https://i0.hdslb.com/bfs/archive/a324228e27f820a3995aca65e48e7d795d496cbd.png");
@@ -70,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         ArrayList<TypeItem> typeItems = new ArrayList<>();
-        //第二个viewpager
         for (int i = 0; i < 6; i++) {
             typeItems.add(new TypeItem("https://fuss10.elemecdn.com/7/d8/a867c870b22bc74c87c348b75528djpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/", "美食" + i));
             typeItems.add(new TypeItem("https://fuss10.elemecdn.com/e/89/185f7259ebda19e16123884a60ef2jpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/", "晚餐" + i));
             typeItems.add(new TypeItem("https://fuss10.elemecdn.com/c/7e/76a23eb90dada42528bc41499d6f8jpeg.jpeg?imageMogr/format/webp/thumbnail/!90x90r/gravity/Center/crop/90x90/", "商店遍历" + i));
         }
 
-        viewPager2.setAdapter(new EasyTypeItemAdapter(10, 5) {
+        viewPager2.setIndicator(dot2)
+                .setAdapter(new EasyTypeItemAdapter(10, 5) {
 
                     @Override
                     protected void convert(BaseViewHolder holder, TypeItem data) {

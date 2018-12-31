@@ -19,7 +19,7 @@ import xin.lrvik.easybanner.indicator.shape.RectShape;
 /**
  * Author by 豢涵, Email huanhanfu@126.com, Date on 2018/12/31.
  */
-public class DotIndicator extends View implements BaseIndicator {
+public class EasyDotIndicator extends View implements BaseIndicator {
 
     private Paint mPaint;
     private Paint mAniPaint;
@@ -49,15 +49,15 @@ public class DotIndicator extends View implements BaseIndicator {
 
     BaseEasyShape rectShape;
 
-    public DotIndicator(Context context) {
+    public EasyDotIndicator(Context context) {
         this(context, null);
     }
 
-    public DotIndicator(Context context, @Nullable AttributeSet attrs) {
+    public EasyDotIndicator(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DotIndicator(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public EasyDotIndicator(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         indicatorPath = new Path();
         selIndicatorpath = new Path();
@@ -223,20 +223,12 @@ public class DotIndicator extends View implements BaseIndicator {
         this.selIsFull = selIsFull;
     }
 
-    public int getShape() {
-        return shape;
+    public int getStrokeWidth() {
+        return strokeWidth;
     }
 
-    public void setShape(int shape) {
-        this.shape = shape;
-        switch (shape) {
-            case 0:
-                rectShape = new RectShape();
-                break;
-            case 1:
-                rectShape = new CircleShape();
-                break;
-        }
+    public void setStrokeWidth(int strokeWidth) {
+        this.strokeWidth = strokeWidth;
     }
 
     public int getDef_radius() {
@@ -255,6 +247,22 @@ public class DotIndicator extends View implements BaseIndicator {
         this.sel_radius = sel_radius;
     }
 
+    public int getShape() {
+        return shape;
+    }
+
+    public void setShape(int shape) {
+        this.shape = shape;
+        switch (shape) {
+            case 0:
+                rectShape = new RectShape();
+                break;
+            case 1:
+                rectShape = new CircleShape();
+                break;
+        }
+    }
+
     public int getSize() {
         return size;
     }
@@ -262,7 +270,7 @@ public class DotIndicator extends View implements BaseIndicator {
     public CenterPoint getCenterPoint(int position) {
         int measuredWidth = getMeasuredWidth();
         int measuredHeight = getMeasuredHeight();
-        int width = measuredWidth / DotIndicator.this.size;
+        int width = measuredWidth / EasyDotIndicator.this.size;
         int centerX = position * width + (width - indicatorMargin) / 2;
         int centerY = measuredHeight / 2;
         return new CenterPoint(position, this.cPositionOffset, centerX, centerY);

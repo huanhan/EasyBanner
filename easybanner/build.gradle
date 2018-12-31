@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.novoda.bintray-release'
 android {
     compileSdkVersion 28
 
@@ -19,21 +18,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    /*publish{
-        repoName = 'maven'//远程仓库名字,不指明，默认是上传到maven
-        userOrg = 'huanhan'//bintray.com的用户名
-        groupId = 'xin.lrvik'//jcenter上的路径
-        artifactId = 'easybanner'//项目名称
-        publishVersion = '1.0.0'//版本号
-        desc = '一个快速实现splash,banner,分类滑动页,以及实现了各种动画的库'//描述，不重要
-        website = "https://github.com/huanhan/EasyBanner"//项目主页
-    }
-    tasks.withType(Javadoc) {//防止编码问题
-        options.addStringOption('Xdoclint:none', '-quiet')
-        options.addStringOption('encoding', 'UTF-8')
-        options.addStringOption('charSet', 'UTF-8')
-    }*/
 }
 
 dependencies {

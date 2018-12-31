@@ -223,7 +223,11 @@ public class EasyViewPager extends ViewPager {
             setCurrentItem(1);
         }
         if (indicator != null) {
-            indicator.createIndicator(data.size());
+            if (adapter.isLoop()) {
+                indicator.createIndicator(adapter.getCount() - 2);
+            } else {
+                indicator.createIndicator(adapter.getCount());
+            }
         }
     }
 

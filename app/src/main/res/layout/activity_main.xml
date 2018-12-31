@@ -1,39 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <xin.lrvik.easybanner.EasyViewPager
-        android:id="@+id/evp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:delay_time="2000"
-        app:auto_play="true"
-        app:is_loop="true"
-        android:text="Hello World!" />
+        android:layout_height="200dp">
+
+        <xin.lrvik.easybanner.EasyViewPager
+            android:id="@+id/evp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:text="Hello World!"
+            app:auto_play="true"
+            app:delay_time="2000"
+            app:is_loop="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:background="#4000">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="轮播图文字"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+
+            <xin.lrvik.easybanner.indicator.EasyDotIndicator
+                android:id="@+id/dot1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                app:def_color="#aaa"
+                app:def_is_full="false"
+                app:def_radius="3dp"
+                app:sel_color="#0aa"
+                app:sel_indicator_height="10dp"
+                app:sel_radius="5dp"
+                app:shape="circle"
+                app:stroke_width="2dp" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="30dp"
+        android:background="#000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="可快速实现上下两种方式" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="30dp"
+        android:background="#000" />
 
     <xin.lrvik.easybanner.EasyViewPager
         android:id="@+id/evp2"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:is_loop="true"
-        android:text="Hello World!" />
+        android:text="Hello World!"
+        app:is_loop="true" />
 
-    <xin.lrvik.easybanner.indicator.DotIndicator
-        android:id="@+id/dot"
+    <xin.lrvik.easybanner.indicator.EasyDotIndicator
+        android:id="@+id/dot2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:sel_radius="5dp"
-        app:def_radius="3dp"
-        app:sel_indicator_height="10dp"
-        app:def_is_full="false"
-        app:stroke_width="2dp"
-
-        app:shape="circle"
         android:layout_gravity="center" />
 
 
