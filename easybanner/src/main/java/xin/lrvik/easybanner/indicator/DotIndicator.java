@@ -6,13 +6,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import xin.lrvik.easybanner.R;
+import xin.lrvik.easybanner.indicator.shape.BaseEasyShape;
+import xin.lrvik.easybanner.indicator.shape.CircleShape;
+import xin.lrvik.easybanner.indicator.shape.RectShape;
 
 
 /**
@@ -28,19 +29,25 @@ public class DotIndicator extends View implements BaseIndicator {
     private int size = 0;
     private int indicatorHeight = 10;
     private int indicatorWidth = 40;
-
     private int indicatorMargin = 10;
-
     private int selIndicatorHeight = 10;
     private int selIndicatorWidth = 40;
-
     private int defColor = Color.parseColor("#DDDDDD");
     private int selColor = Color.parseColor("#7785D0F7");
-    private boolean defIsFull = true;
-    private boolean selIsFull = true;
+
+    private boolean defIsFull;
+    private boolean selIsFull;
+    private int strokeWidth;
+
+    private int shape;
+
+    private int def_radius;
+    private int sel_radius;
 
     private int cPosition;
     private float cPositionOffset;
+
+    BaseEasyShape rectShape;
 
     public DotIndicator(Context context) {
         this(context, null);
@@ -56,9 +63,6 @@ public class DotIndicator extends View implements BaseIndicator {
         selIndicatorpath = new Path();
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mAniPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(defColor);
-        mAniPaint.setColor(selColor);
-
         handleTypedArray(context, attrs);
     }
 
@@ -74,6 +78,12 @@ public class DotIndicator extends View implements BaseIndicator {
         selIndicatorWidth = typedArray.getDimensionPixelSize(R.styleable.dot_indicator_sel_indicator_width, selIndicatorWidth);
         defColor = typedArray.getColor(R.styleable.dot_indicator_def_color, defColor);
         selColor = typedArray.getColor(R.styleable.dot_indicator_sel_color, selColor);
+        defIsFull = typedArray.getBoolean(R.styleable.dot_indicator_def_is_full, true);
+        selIsFull = typedArray.getBoolean(R.styleable.dot_indicator_sel_is_full, true);
+        strokeWidth = typedArray.getDimensionPixelSize(R.styleable.dot_indicator_stroke_width, 2);
+        setShape(typedArray.getInt(R.styleable.dot_indicator_shape, 0));
+        def_radius = typedArray.getDimensionPixelSize(R.styleable.dot_indicator_def_radius, 0);
+        sel_radius = typedArray.getDimensionPixelSize(R.styleable.dot_indicator_sel_radius, 0);
         typedArray.recycle();
     }
 
@@ -81,80 +91,39 @@ public class DotIndicator extends View implements BaseIndicator {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //绘制所有指示器
-        drawIndicators(canvas);
+        drawDefIndicators(canvas);
         //绘制指示器变换动画动画
-        drawIndicatorsAnimation(canvas);
+        drawSelIndicators(canvas);
     }
 
-    private void drawIndicatorsAnimation(Canvas canvas) {
+    private void drawSelIndicators(Canvas canvas) {
+        mAniPaint.setColor(selColor);
         mAniPaint.setStyle(Paint.Style.FILL);
+        mAniPaint.setStrokeWidth(strokeWidth);
+        if (!selIsFull) {
+            mAniPaint.setStyle(Paint.Style.STROKE);
+        }
         selIndicatorpath.reset();
-        selIndicatorpath.addRect(getSelIndicator(this.cPosition, this.cPositionOffset), Path.Direction.CW);
+
+        rectShape.setSelIndicatorsShape(selIndicatorpath, this);
+
         canvas.drawPath(selIndicatorpath, mAniPaint);
     }
 
-    private void drawIndicators(Canvas canvas) {
-//        canvas.drawColor(Color.parseColor("#AA0000"));
+    private void drawDefIndicators(Canvas canvas) {
+        mPaint.setColor(defColor);
         mPaint.setStyle(Paint.Style.FILL);
-        indicatorPath.reset();
-        for (int i = 0; i < this.size; i++) {
-            indicatorPath.addRect(getDefIndicator(i, 0), Path.Direction.CW);
+        mPaint.setStrokeWidth(strokeWidth);
+        if (!defIsFull) {
+            mPaint.setStyle(Paint.Style.STROKE);
         }
+        indicatorPath.reset();
+
+        rectShape.setIndicatorsShape(indicatorPath, this);
+
         canvas.drawPath(indicatorPath, mPaint);
     }
 
-    /**
-     * 默认的指示器样式
-     *
-     * @param position
-     * @param positionOffset
-     * @return
-     */
-    private RectF getDefIndicator(int position, float positionOffset) {
-        int measuredWidth = getMeasuredWidth();
-        int measuredHeight = getMeasuredHeight();
-
-        int width = measuredWidth / this.size;
-
-        //根据绘制的宽度高度决定绘制的起点
-        int centerX = position * width + (width - indicatorMargin) / 2;
-        int centerY = measuredHeight / 2;
-
-        Log.d("test", "总高度: " + measuredHeight + "总宽度: " + measuredWidth + "---中心点x" + centerX + "---中心点y" + centerY);
-
-        int left = centerX - indicatorWidth / 2;
-        int top = centerY - indicatorHeight / 2;
-        int right = left + indicatorWidth;
-        int bottom = top + indicatorHeight;
-        return new RectF(left, top, right, bottom);
-    }
-
-    /**
-     * 选中指示器样式
-     *
-     * @param position
-     * @param positionOffset
-     * @return
-     */
-    private RectF getSelIndicator(int position, float positionOffset) {
-        int measuredWidth = getMeasuredWidth();
-        int measuredHeight = getMeasuredHeight();
-
-        int width = (measuredWidth) / this.size;
-
-        //根据绘制的宽度高度决定绘制的起点
-        int centerX = position * width + (width - indicatorMargin) / 2;
-        int centerY = measuredHeight / 2;
-
-        int left = centerX - selIndicatorWidth / 2;
-        int top = centerY - selIndicatorHeight / 2;
-        if (position != this.size - 1) {
-            left += (int) ((selIndicatorWidth + indicatorMargin) * positionOffset);
-        }
-        int right = left + selIndicatorWidth;
-        int bottom = top + selIndicatorHeight;
-        return new RectF(left, top, right, bottom);
-    }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -182,5 +151,155 @@ public class DotIndicator extends View implements BaseIndicator {
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
 
+    public int getIndicatorHeight() {
+        return indicatorHeight;
+    }
 
+    public void setIndicatorHeight(int indicatorHeight) {
+        this.indicatorHeight = indicatorHeight;
+    }
+
+    public int getIndicatorWidth() {
+        return indicatorWidth;
+    }
+
+    public void setIndicatorWidth(int indicatorWidth) {
+        this.indicatorWidth = indicatorWidth;
+    }
+
+    public int getIndicatorMargin() {
+        return indicatorMargin;
+    }
+
+    public void setIndicatorMargin(int indicatorMargin) {
+        this.indicatorMargin = indicatorMargin;
+    }
+
+    public int getSelIndicatorHeight() {
+        return selIndicatorHeight;
+    }
+
+    public void setSelIndicatorHeight(int selIndicatorHeight) {
+        this.selIndicatorHeight = selIndicatorHeight;
+    }
+
+    public int getSelIndicatorWidth() {
+        return selIndicatorWidth;
+    }
+
+    public void setSelIndicatorWidth(int selIndicatorWidth) {
+        this.selIndicatorWidth = selIndicatorWidth;
+    }
+
+    public int getDefColor() {
+        return defColor;
+    }
+
+    public void setDefColor(int defColor) {
+        this.defColor = defColor;
+    }
+
+    public int getSelColor() {
+        return selColor;
+    }
+
+    public void setSelColor(int selColor) {
+        this.selColor = selColor;
+    }
+
+    public boolean isDefIsFull() {
+        return defIsFull;
+    }
+
+    public void setDefIsFull(boolean defIsFull) {
+        this.defIsFull = defIsFull;
+    }
+
+    public boolean isSelIsFull() {
+        return selIsFull;
+    }
+
+    public void setSelIsFull(boolean selIsFull) {
+        this.selIsFull = selIsFull;
+    }
+
+    public int getShape() {
+        return shape;
+    }
+
+    public void setShape(int shape) {
+        this.shape = shape;
+        switch (shape) {
+            case 0:
+                rectShape = new RectShape();
+                break;
+            case 1:
+                rectShape = new CircleShape();
+                break;
+        }
+    }
+
+    public int getDef_radius() {
+        return def_radius;
+    }
+
+    public void setDef_radius(int def_radius) {
+        this.def_radius = def_radius;
+    }
+
+    public int getSel_radius() {
+        return sel_radius;
+    }
+
+    public void setSel_radius(int sel_radius) {
+        this.sel_radius = sel_radius;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public CenterPoint getCenterPoint(int position) {
+        int measuredWidth = getMeasuredWidth();
+        int measuredHeight = getMeasuredHeight();
+        int width = measuredWidth / DotIndicator.this.size;
+        int centerX = position * width + (width - indicatorMargin) / 2;
+        int centerY = measuredHeight / 2;
+        return new CenterPoint(position, this.cPositionOffset, centerX, centerY);
+    }
+
+    public CenterPoint getCenterPoint() {
+        return getCenterPoint(this.cPosition);
+    }
+
+    public class CenterPoint {
+        private int position;
+        private float positionOffset;
+        private int centerX;
+        private int centerY;
+
+        public CenterPoint(int position, float positionOffset, int centerX, int centerY) {
+            this.position = position;
+            this.positionOffset = positionOffset;
+            this.centerX = centerX;
+            this.centerY = centerY;
+        }
+
+        public int getCenterX() {
+            return centerX;
+        }
+
+        public int getCenterY() {
+            return centerY;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public float getPositionOffset() {
+            return positionOffset;
+        }
+
+    }
 }

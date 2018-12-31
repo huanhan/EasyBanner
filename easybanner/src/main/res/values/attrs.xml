@@ -13,6 +13,14 @@
 
         <attr name="def_is_full" format="boolean" />
         <attr name="sel_is_full" format="boolean" />
+        <attr name="stroke_width" format="dimension" />
+        <attr name="def_radius" format="dimension" />
+        <attr name="sel_radius" format="dimension" />
+
+        <attr name="shape" >
+            <enum name="rect" value="0" />
+            <enum name="circle" value="1" />
+        </attr>
 
 
 

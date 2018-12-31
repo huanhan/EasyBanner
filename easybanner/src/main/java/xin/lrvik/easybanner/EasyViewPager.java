@@ -61,7 +61,6 @@ public class EasyViewPager extends ViewPager {
                             pos = 1;
                         }
 
-                        Log.d("TEST", "绘制第" + (pos - 1));
                         indicator.onPageScrolled(pos - 1, positionOffset, positionOffsetPixels);
                     } else {
                         indicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -71,8 +70,6 @@ public class EasyViewPager extends ViewPager {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
-                Log.d("TEST", "滚动状态改变，当前页" + getCurrentItem());
                 if (adapter.isLoop()) {
                     switch (state) {
                         case ViewPager.SCROLL_STATE_IDLE://No operation
