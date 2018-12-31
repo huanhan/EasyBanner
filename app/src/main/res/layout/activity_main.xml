@@ -11,12 +11,16 @@
         android:id="@+id/evp"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        app:delay_time="2000"
+        app:auto_play="true"
+        app:is_loop="true"
         android:text="Hello World!" />
 
     <xin.lrvik.easybanner.EasyViewPager
         android:id="@+id/evp2"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        app:is_loop="true"
         android:text="Hello World!" />
 
     <xin.lrvik.easybanner.indicator.DotIndicator

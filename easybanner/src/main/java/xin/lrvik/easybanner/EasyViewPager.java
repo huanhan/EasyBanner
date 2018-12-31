@@ -1,10 +1,10 @@
 package xin.lrvik.easybanner;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
 import java.util.List;
 
@@ -19,9 +19,9 @@ public class EasyViewPager extends ViewPager {
 
     private Context mContext;
 
-    private int delayTime = 3000;
-    private boolean isAutoPlay = false;
-    private boolean isLoop = false;
+    private int delayTime;
+    private boolean isAutoPlay;
+    private boolean isLoop;
 
     private BaseEasyViewPagerAdapter adapter;
 
@@ -116,14 +116,11 @@ public class EasyViewPager extends ViewPager {
         if (attrs == null) {
             return;
         }
-        /*TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.Banner);
-        mIndicatorMargin = typedArray.getDimensionPixelSize(R.styleable.Banner_indicator_margin, BannerConfig.PADDING_SIZE);
-        mIndicatorSelectedResId = typedArray.getResourceId(R.styleable.Banner_indicator_drawable_selected, R.drawable.gray_radius);
-        scaleType = typedArray.getInt(R.styleable.Banner_image_scale_type, scaleType);
-        isAutoPlay = typedArray.getBoolean(R.styleable.Banner_is_auto_play, BannerConfig.IS_AUTO_PLAY);
-        titleBackground = typedArray.getColor(R.styleable.Banner_title_background, BannerConfig.TITLE_BACKGROUND);
-        typedArray.recycle();*///获取xml配置属性
-
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.easy_view_pager);
+        delayTime = typedArray.getInt(R.styleable.easy_view_pager_delay_time, 3000);
+        isAutoPlay = typedArray.getBoolean(R.styleable.easy_view_pager_auto_play, false);
+        isLoop = typedArray.getBoolean(R.styleable.easy_view_pager_is_loop, false);
+        typedArray.recycle();
     }
 
 
@@ -186,7 +183,7 @@ public class EasyViewPager extends ViewPager {
     }
 
     public interface OnPageChangeListener {
-          void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
+        void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
     }
 
     public EasyViewPager setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {

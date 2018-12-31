@@ -25,4 +25,9 @@
 
 
     </declare-styleable>
+    <declare-styleable name="easy_view_pager">
+        <attr name="delay_time" format="integer" />
+        <attr name="auto_play" format="boolean" />
+        <attr name="is_loop" format="boolean" />
+    </declare-styleable>
 </resources>
