@@ -21,8 +21,9 @@
 
     <xin.lrvik.easybanner.indicator.DotIndicator
         android:id="@+id/dot"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:text="Hello World!" />
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
+
 
 </LinearLayout>
