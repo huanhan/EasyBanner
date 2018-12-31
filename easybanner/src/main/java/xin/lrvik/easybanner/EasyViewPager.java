@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import java.util.List;
 
 import xin.lrvik.easybanner.adapter.viewpager.BaseEasyViewPagerAdapter;
+import xin.lrvik.easybanner.indicator.BaseIndicator;
 
 
 /**
@@ -23,6 +24,8 @@ public class EasyViewPager extends ViewPager {
     private boolean isLoop = false;
 
     private BaseEasyViewPagerAdapter adapter;
+
+    private BaseIndicator indicator;
 
     private WeakHandler handler = new WeakHandler();
 
@@ -45,6 +48,26 @@ public class EasyViewPager extends ViewPager {
         //初始化view
 
         addOnPageChangeListener(new SimpleOnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (indicator != null) {
+                    if (adapter.isLoop()) {
+                        int pos = position;
+                        if (position == 0) {
+                            pos = getAdapter().getCount() - 2;
+                        } else if (position == getAdapter().getCount() - 1) {
+                            pos = 1;
+                        }
+
+                        Log.d("TEST", "绘制第" + (pos - 1));
+                        indicator.onPageScrolled(pos - 1, positionOffset, positionOffsetPixels);
+                    } else {
+                        indicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                    }
+                }
+            }
 
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -149,6 +172,15 @@ public class EasyViewPager extends ViewPager {
         return this;
     }
 
+    public BaseIndicator getIndicator() {
+        return indicator;
+    }
+
+    public EasyViewPager setIndicator(BaseIndicator indicator) {
+        this.indicator = indicator;
+        return this;
+    }
+
     public boolean isLoop() {
         return isLoop;
     }
@@ -170,6 +202,9 @@ public class EasyViewPager extends ViewPager {
         adapter.setData(data);
         if (adapter.isLoop()) {
             setCurrentItem(1);
+        }
+        if (indicator != null) {
+            indicator.createIndicator(data.size());
         }
     }
 

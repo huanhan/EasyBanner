@@ -15,12 +15,14 @@ import xin.lrvik.easybanner.adapter.recyclerview.BaseViewHolder;
 import xin.lrvik.easybanner.adapter.viewpager.EasyImageAdapter;
 import xin.lrvik.easybanner.adapter.viewpager.EasyTypeItemAdapter;
 import xin.lrvik.easybanner.dto.TypeItem;
+import xin.lrvik.easybanner.indicator.DotIndicator;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private EasyViewPager viewPager;
     private EasyViewPager viewPager2;
+    private DotIndicator dot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         viewPager = findViewById(R.id.evp);
         viewPager2 = findViewById(R.id.evp2);
+        dot = findViewById(R.id.dot);
 
         //第一个viewpager
         ArrayList<String> imgUrls = new ArrayList<>();
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 .setDelayTime(2000)
                 .setLoop(true)
                 .setBannerAnimation(Transformer.Accordion)
+                .setIndicator(dot)
                 .setAdapter(new EasyImageAdapter<String>(ImageView.ScaleType.CENTER_CROP) {
                     @Override
                     protected void onItemClick(View view, String s) {
