@@ -18,6 +18,8 @@ package xin.lrvik.easybanner.transformer;
 
 import android.view.View;
 
+import xin.lrvik.easybanner.transformer.ABaseTransformer;
+
 public class ZoomInTransformer extends ABaseTransformer {
 
 	@Override

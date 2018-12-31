@@ -1,4 +1,4 @@
-package xin.lrvik.easybanner;
+package xin.lrvik.demo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,11 +11,14 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import xin.lrvik.easybanner.EasyViewPager;
+import xin.lrvik.easybanner.Transformer;
 import xin.lrvik.easybanner.adapter.recyclerview.BaseViewHolder;
 import xin.lrvik.easybanner.adapter.viewpager.EasyImageAdapter;
 import xin.lrvik.easybanner.adapter.viewpager.EasyTypeItemAdapter;
 import xin.lrvik.easybanner.dto.TypeItem;
 import xin.lrvik.easybanner.indicator.DotIndicator;
+
 
 public class MainActivity extends AppCompatActivity {
 

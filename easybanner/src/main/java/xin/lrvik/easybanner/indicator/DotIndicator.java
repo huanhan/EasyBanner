@@ -14,6 +14,7 @@ import android.view.View;
 
 import xin.lrvik.easybanner.R;
 
+
 /**
  * Author by 豢涵, Email huanhanfu@126.com, Date on 2018/12/31.
  */
@@ -27,10 +28,11 @@ public class DotIndicator extends View implements BaseIndicator {
     private int size = 0;
     private int indicatorHeight = 10;
     private int indicatorWidth = 40;
-    private int indicatorMargin = 50;
 
-    private int selIndicatorHeight = 60;
-    private int selIndicatorWidth = 100;
+    private int indicatorMargin = 10;
+
+    private int selIndicatorHeight = 10;
+    private int selIndicatorWidth = 40;
 
     private int defColor = Color.parseColor("#DDDDDD");
     private int selColor = Color.parseColor("#7785D0F7");
@@ -64,23 +66,15 @@ public class DotIndicator extends View implements BaseIndicator {
         if (attrs == null) {
             return;
         }
-       /* TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.dot_indicator);
-        mIndicatorWidth = typedArray.getDimensionPixelSize(R.styleable.Banner_indicator_width, indicatorSize);
-        mIndicatorHeight = typedArray.getDimensionPixelSize(R.styleable.Banner_indicator_height, indicatorSize);
-        mIndicatorMargin = typedArray.getDimensionPixelSize(R.styleable.Banner_indicator_margin, BannerConfig.PADDING_SIZE);
-        mIndicatorSelectedResId = typedArray.getResourceId(R.styleable.Banner_indicator_drawable_selected, R.drawable.gray_radius);
-        mIndicatorUnselectedResId = typedArray.getResourceId(R.styleable.Banner_indicator_drawable_unselected, R.drawable.white_radius);
-        scaleType = typedArray.getInt(R.styleable.Banner_image_scale_type, scaleType);
-        delayTime = typedArray.getInt(R.styleable.Banner_delay_time, BannerConfig.TIME);
-        scrollTime = typedArray.getInt(R.styleable.Banner_scroll_time, BannerConfig.DURATION);
-        isAutoPlay = typedArray.getBoolean(R.styleable.Banner_is_auto_play, BannerConfig.IS_AUTO_PLAY);
-        titleBackground = typedArray.getColor(R.styleable.Banner_title_background, BannerConfig.TITLE_BACKGROUND);
-        titleHeight = typedArray.getDimensionPixelSize(R.styleable.Banner_title_height, BannerConfig.TITLE_HEIGHT);
-        titleTextColor = typedArray.getColor(R.styleable.Banner_title_textcolor, BannerConfig.TITLE_TEXT_COLOR);
-        titleTextSize = typedArray.getDimensionPixelSize(R.styleable.Banner_title_textsize, BannerConfig.TITLE_TEXT_SIZE);
-        mLayoutResId = typedArray.getResourceId(R.styleable.Banner_banner_layout, mLayoutResId);
-        bannerBackgroundImage = typedArray.getResourceId(R.styleable.Banner_banner_default_image, R.drawable.no_banner);
-        typedArray.recycle();*/
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.dot_indicator);
+        indicatorHeight = typedArray.getDimensionPixelSize(R.styleable.dot_indicator_indicator_height, indicatorHeight);
+        indicatorWidth = typedArray.getDimensionPixelSize(R.styleable.dot_indicator_indicator_width, indicatorWidth);
+        indicatorMargin = typedArray.getDimensionPixelSize(R.styleable.dot_indicator_indicator_margin, indicatorMargin);
+        selIndicatorHeight = typedArray.getDimensionPixelSize(R.styleable.dot_indicator_sel_indicator_height, selIndicatorHeight);
+        selIndicatorWidth = typedArray.getDimensionPixelSize(R.styleable.dot_indicator_sel_indicator_width, selIndicatorWidth);
+        defColor = typedArray.getColor(R.styleable.dot_indicator_def_color, defColor);
+        selColor = typedArray.getColor(R.styleable.dot_indicator_sel_color, selColor);
+        typedArray.recycle();
     }
 
     @Override
@@ -122,20 +116,14 @@ public class DotIndicator extends View implements BaseIndicator {
 
         int width = measuredWidth / this.size;
 
-
         //根据绘制的宽度高度决定绘制的起点
-        //中心x
         int centerX = position * width + (width - indicatorMargin) / 2;
         int centerY = measuredHeight / 2;
 
         Log.d("test", "总高度: " + measuredHeight + "总宽度: " + measuredWidth + "---中心点x" + centerX + "---中心点y" + centerY);
 
         int left = centerX - indicatorWidth / 2;
-
-//        int left = position * (indicatorWidth + indicatorMargin);
-
         int top = centerY - indicatorHeight / 2;
-
         int right = left + indicatorWidth;
         int bottom = top + indicatorHeight;
         return new RectF(left, top, right, bottom);
@@ -155,18 +143,14 @@ public class DotIndicator extends View implements BaseIndicator {
         int width = (measuredWidth) / this.size;
 
         //根据绘制的宽度高度决定绘制的起点
-        //中心x
         int centerX = position * width + (width - indicatorMargin) / 2;
         int centerY = measuredHeight / 2;
 
         int left = centerX - selIndicatorWidth / 2;
-//        int left = position * (indicatorWidth + indicatorMargin);
         int top = centerY - selIndicatorHeight / 2;
-
         if (position != this.size - 1) {
             left += (int) ((selIndicatorWidth + indicatorMargin) * positionOffset);
         }
-
         int right = left + selIndicatorWidth;
         int bottom = top + selIndicatorHeight;
         return new RectF(left, top, right, bottom);
@@ -195,7 +179,6 @@ public class DotIndicator extends View implements BaseIndicator {
         int measuredWidth = resolveSize(width, widthMeasureSpec);
         int measuredHeight = resolveSize(height, heightMeasureSpec);
 
-        // 再用 setMeasuredDimension(measuredWidth, height) 来保存最终的宽度和高度
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
 

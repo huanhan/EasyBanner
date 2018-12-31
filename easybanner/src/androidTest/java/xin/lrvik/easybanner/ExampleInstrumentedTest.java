@@ -1,4 +1,4 @@
-package xin.lrvik.easybanner;
+package xin.lrvik.demo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package xin.lrvik.easybanner;
+package xin.lrvik.demo;
 
 import org.junit.Test;
 

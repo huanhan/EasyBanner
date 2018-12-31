@@ -2,6 +2,8 @@ package xin.lrvik.easybanner.transformer;
 
 import android.view.View;
 
+import xin.lrvik.easybanner.transformer.ABaseTransformer;
+
 public class ScaleInOutTransformer extends ABaseTransformer {
 
 	@Override

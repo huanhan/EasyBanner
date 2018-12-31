@@ -18,6 +18,8 @@ package xin.lrvik.easybanner.transformer;
 
 import android.view.View;
 
+import xin.lrvik.easybanner.transformer.ABaseTransformer;
+
 public class RotateDownTransformer extends ABaseTransformer {
 
 	private static final float ROT_MOD = -15f;

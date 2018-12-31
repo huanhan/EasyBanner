@@ -1,4 +1,4 @@
-/*
+package xin.lrvik.easybanner.transformer;/*
  * Copyright 2014 Toxic Bakery
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package xin.lrvik.easybanner.transformer;
 
 import android.view.View;
+
 
 public class CubeInTransformer extends ABaseTransformer {
 

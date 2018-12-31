@@ -20,6 +20,8 @@ import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.view.View;
 
+import xin.lrvik.easybanner.transformer.ABaseTransformer;
+
 public class TabletTransformer extends ABaseTransformer {
 
 	private static final Matrix OFFSET_MATRIX = new Matrix();

@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="dot_indicator">
-        <attr name="title_height" format="dimension" />
-        <attr name="indicator_width" format="dimension" />
         <attr name="indicator_height" format="dimension" />
+        <attr name="indicator_width" format="dimension" />
         <attr name="indicator_margin" format="dimension" />
+
+        <attr name="sel_indicator_height" format="dimension" />
+        <attr name="sel_indicator_width" format="dimension" />
+
+        <attr name="def_color" format="color|reference" />
+        <attr name="sel_color" format="color|reference" />
+
+        <attr name="def_is_full" format="boolean" />
+        <attr name="sel_is_full" format="boolean" />
+
 
 
     </declare-styleable>

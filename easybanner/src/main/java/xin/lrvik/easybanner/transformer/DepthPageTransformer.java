@@ -18,6 +18,8 @@ package xin.lrvik.easybanner.transformer;
 
 import android.view.View;
 
+import xin.lrvik.easybanner.transformer.ABaseTransformer;
+
 public class DepthPageTransformer extends ABaseTransformer {
 
 	private static final float MIN_SCALE = 0.75f;

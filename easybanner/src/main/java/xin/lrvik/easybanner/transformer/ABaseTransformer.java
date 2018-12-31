@@ -1,4 +1,4 @@
-/*
+package xin.lrvik.easybanner.transformer;/*
  * Copyright 2014 Toxic Bakery
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-package xin.lrvik.easybanner.transformer;
 
 import android.support.v4.view.ViewPager.PageTransformer;
 import android.view.View;
