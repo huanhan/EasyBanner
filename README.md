@@ -15,7 +15,7 @@
 
 2. 导入库（版本号参见[版本号](https://github.com/huanhan/EasyBanner/releases)）
 
-		implementation 'com.github.huanhan:EasyBanner:1.0.0'  
+		implementation 'com.github.huanhan:EasyBanner:1.0.2'  
 
 3. 使用EasyViewPager
 
@@ -64,16 +64,13 @@
 			//设置1页有10个元素，10个元素按照5列排序
 	        viewPager2.setAdapter(new EasyTypeItemAdapter(10, 5) {
 	
-	                    @Override
-	                    protected void convert(BaseViewHolder holder, TypeItem data) {
-							//渲染图片以及文字
-	                        ImageView iv = holder.getView(R.id.iv);
-	                        Glide.with(MainActivity.this)
-	                                .load(data.getImgUrl())
-	                                .into(iv);
-	                        TextView tv = holder.getView(R.id.tv);
-	                        tv.setText(data.getTitle());
-	                    }
+	                @Override
+                    protected void convert(ImageView imageView, TextView textView, TypeItem data) {
+                        Glide.with(MainActivity.this)
+                                .load(data.getImgUrl())
+                                .into(imageView);
+                        textView.setText(data.getTitle());
+                    }
 	
 	                }).setData(typeItems);
 
@@ -120,16 +117,16 @@
 
 9. 使用指示器
 
-	<xin.lrvik.easybanner.indicator.DotIndicator
-        android:id="@+id/dot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+		<xin.lrvik.easybanner.indicator.DotIndicator
+	        android:id="@+id/dot"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
 
 10. 联立轮播图和指示器
 
-	viewPager2 = findViewById(R.id.evp2);
-    dot = findViewById(R.id.dot);
-	viewPager2.setIndicator(dot);
+		viewPager2 = findViewById(R.id.evp2);
+	    dot = findViewById(R.id.dot);
+		viewPager2.setIndicator(dot);
 
 11. 自定义适配器
 
