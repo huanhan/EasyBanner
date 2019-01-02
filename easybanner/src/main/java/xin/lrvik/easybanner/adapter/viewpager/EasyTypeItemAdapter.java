@@ -1,7 +1,11 @@
 package xin.lrvik.easybanner.adapter.viewpager;
 
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import xin.lrvik.easybanner.R;
+import xin.lrvik.easybanner.adapter.recyclerview.BaseViewHolder;
 import xin.lrvik.easybanner.dto.TypeItem;
 
 /**
@@ -13,4 +17,12 @@ public abstract class EasyTypeItemAdapter extends BaseTypeItemAdapter<TypeItem> 
         super(itemNum, cols, R.layout.item_type);
     }
 
+    @Override
+    protected void convert(BaseViewHolder holder, TypeItem data) {
+        ImageView imageView = holder.getView(R.id.iv);
+        TextView textView = holder.getView(R.id.tv);
+        convert(imageView,textView,data);
+    }
+
+    protected abstract void convert(ImageView imageView, TextView textView, TypeItem data);
 }

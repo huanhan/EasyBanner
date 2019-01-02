@@ -82,13 +82,11 @@ public class MainActivity extends AppCompatActivity {
                 .setAdapter(new EasyTypeItemAdapter(10, 5) {
 
                     @Override
-                    protected void convert(BaseViewHolder holder, TypeItem data) {
-                        ImageView iv = holder.getView(R.id.iv);
+                    protected void convert(ImageView imageView, TextView textView, TypeItem data) {
                         Glide.with(MainActivity.this)
                                 .load(data.getImgUrl())
-                                .into(iv);
-                        TextView tv = holder.getView(R.id.tv);
-                        tv.setText(data.getTitle());
+                                .into(imageView);
+                        textView.setText(data.getTitle());
                     }
 
                 }).setOnItemClickListner(new BaseEasyViewPagerAdapter.OnItemClickListner<TypeItem>() {
