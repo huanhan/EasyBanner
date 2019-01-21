@@ -134,6 +134,8 @@ public class EasyDotIndicator extends View implements BaseIndicator {
 
     @Override
     public void createIndicator(int size) {
+        //更新布局大小
+        requestLayout();
         this.size = size;
     }
 

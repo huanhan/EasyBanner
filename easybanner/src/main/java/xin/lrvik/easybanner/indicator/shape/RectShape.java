@@ -34,23 +34,25 @@ public class RectShape implements BaseEasyShape {
 
     @Override
     public void setSelIndicatorsShape(Path path, EasyDotIndicator easyDotIndicator) {
-        EasyDotIndicator.CenterPoint point = easyDotIndicator.getCenterPoint();
-        int centerX = point.getCenterX();
-        int centerY = point.getCenterY();
+        if (easyDotIndicator.getSize() > 0) {
+            EasyDotIndicator.CenterPoint point = easyDotIndicator.getCenterPoint();
+            int centerX = point.getCenterX();
+            int centerY = point.getCenterY();
 
-        int left = centerX - easyDotIndicator.getSelIndicatorWidth() / 2;
-        int top = centerY - easyDotIndicator.getSelIndicatorHeight() / 2;
-        if (point.getPosition() != easyDotIndicator.getSize() - 1) {
-            left += (int) ((easyDotIndicator.getSelIndicatorWidth() + easyDotIndicator.getIndicatorMargin()) * point.getPositionOffset());
-        }
-        int right = left + easyDotIndicator.getSelIndicatorWidth();
-        int bottom = top + easyDotIndicator.getSelIndicatorHeight();
+            int left = centerX - easyDotIndicator.getSelIndicatorWidth() / 2;
+            int top = centerY - easyDotIndicator.getSelIndicatorHeight() / 2;
+            if (point.getPosition() != easyDotIndicator.getSize() - 1) {
+                left += (int) ((easyDotIndicator.getSelIndicatorWidth() + easyDotIndicator.getIndicatorMargin()) * point.getPositionOffset());
+            }
+            int right = left + easyDotIndicator.getSelIndicatorWidth();
+            int bottom = top + easyDotIndicator.getSelIndicatorHeight();
 
-        if (easyDotIndicator.getSel_radius() != 0) {
-            path.addRoundRect(new RectF(left, top, right, bottom), easyDotIndicator.getSel_radius(),
-                    easyDotIndicator.getSel_radius(), Path.Direction.CW);
-        } else {
-            path.addRect(new RectF(left, top, right, bottom), Path.Direction.CW);
+            if (easyDotIndicator.getSel_radius() != 0) {
+                path.addRoundRect(new RectF(left, top, right, bottom), easyDotIndicator.getSel_radius(),
+                        easyDotIndicator.getSel_radius(), Path.Direction.CW);
+            } else {
+                path.addRect(new RectF(left, top, right, bottom), Path.Direction.CW);
+            }
         }
     }
 

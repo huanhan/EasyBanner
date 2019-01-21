@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(MainActivity.this, "当前页为"+position, Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "更新文本提示 " + position);
             }
-        }).setData(imgUrls);
+        });
 
 
         ArrayList<TypeItem> typeItems = new ArrayList<>();
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClickListner(View v, TypeItem typeItem) {
                 Toast.makeText(MainActivity.this, typeItem.getTitle(), Toast.LENGTH_SHORT).show();
+                viewPager.setData(imgUrls);
             }
         }).setData(typeItems);
 

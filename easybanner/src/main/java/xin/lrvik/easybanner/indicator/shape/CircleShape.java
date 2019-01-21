@@ -25,17 +25,17 @@ public class CircleShape implements BaseEasyShape {
 
     @Override
     public void setSelIndicatorsShape(Path path, EasyDotIndicator easyDotIndicator) {
-        EasyDotIndicator.CenterPoint point = easyDotIndicator.getCenterPoint();
-        int centerX = point.getCenterX();
-        int centerY = point.getCenterY();
-        if (point.getPosition() != easyDotIndicator.getSize() - 1) {
-            centerX += (int) ((easyDotIndicator.getSelIndicatorWidth() + easyDotIndicator.getIndicatorMargin()) * point.getPositionOffset());
+        if (easyDotIndicator.getSize()>0) {
+            EasyDotIndicator.CenterPoint point = easyDotIndicator.getCenterPoint();
+            int centerX = point.getCenterX();
+            int centerY = point.getCenterY();
+            if (point.getPosition() != easyDotIndicator.getSize() - 1) {
+                centerX += (int) ((easyDotIndicator.getSelIndicatorWidth() + easyDotIndicator.getIndicatorMargin()) * point.getPositionOffset());
+            }
+
+            path.addCircle(centerX, centerY,
+                    easyDotIndicator.getSel_radius() == 0 ? 5 : easyDotIndicator.getSel_radius(),
+                    Path.Direction.CW);
         }
-
-
-        path.addCircle(centerX, centerY,
-                easyDotIndicator.getSel_radius() == 0 ? 5 : easyDotIndicator.getSel_radius(),
-                Path.Direction.CW);
-
     }
 }
