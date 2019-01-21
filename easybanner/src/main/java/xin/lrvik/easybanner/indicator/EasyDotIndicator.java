@@ -270,7 +270,7 @@ public class EasyDotIndicator extends View implements BaseIndicator {
     public CenterPoint getCenterPoint(int position) {
         int measuredWidth = getMeasuredWidth();
         int measuredHeight = getMeasuredHeight();
-        int width = measuredWidth / EasyDotIndicator.this.size;
+        int width = measuredWidth / (size == 0 ? 1 : size);
         int centerX = position * width + (width - indicatorMargin) / 2;
         int centerY = measuredHeight / 2;
         return new CenterPoint(position, this.cPositionOffset, centerX, centerY);

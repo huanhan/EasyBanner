@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         dot = findViewById(R.id.dot1);
         dot2 = findViewById(R.id.dot2);
 
-        ArrayList<String> imgUrls = new ArrayList<>();
+        final ArrayList<String> imgUrls = new ArrayList<>();
         imgUrls.add("https://i0.hdslb.com/bfs/archive/ef72072c178bff478d305e0fad4a1aecca5c30e2.jpg");
         imgUrls.add("https://i0.hdslb.com/bfs/archive/a324228e27f820a3995aca65e48e7d795d496cbd.png");
         imgUrls.add("https://i0.hdslb.com/bfs/archive/47763f9544513d934b0edace50ec2541f3590f7c.jpg");

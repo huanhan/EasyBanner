@@ -214,19 +214,24 @@ public class EasyViewPager extends ViewPager {
     }
 
     public void setData(List data) {
-        if (adapter == null) {
-            throw new RuntimeException("适配器不能为空，请配置适配器！");
-        }
-        adapter.setLoop(isLoop);
-        adapter.setData(data);
-        if (adapter.isLoop()) {
-            setCurrentItem(1);
-        }
-        if (indicator != null) {
+        if (data.size()>0) {
+            if (adapter == null) {
+                throw new RuntimeException("适配器不能为空，请配置适配器！");
+            }
+            adapter.setLoop(isLoop);
+            adapter.setData(data);
             if (adapter.isLoop()) {
-                indicator.createIndicator(adapter.getCount() - 2);
-            } else {
-                indicator.createIndicator(adapter.getCount());
+                setCurrentItem(1);
+            }
+            if (indicator != null) {
+                if (adapter.isLoop()) {
+                    indicator.createIndicator(adapter.getCount() - 2);
+                } else {
+                    indicator.createIndicator(adapter.getCount());
+                }
+            }
+            if (isAutoPlay) {
+                startAutoPlay();
             }
         }
     }
